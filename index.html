@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Space Adventure!</title>
+	<link rel="stylesheet" href="./css/style.css">
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+	<!-- Load Coquette -->
+	<script src="./js/libraries/coquette.js"></script>
+	<!-- Load Seedrandom.js -->
+	<script src="./js/libraries/seedrandom.js"></script>
+	<!-- Load Game Classes -->
+	<script src="./js/classes/Game.js"></script>
+	<script src="./js/classes/GameCollisionBox.js"></script>
+	<script src="./js/classes/GameHUDOption.js"></script>
+	<script src="./js/classes/GameStartScreen.js"></script>
+	<script src="./js/classes/GameScreen.js"></script>
+	<script src="./js/classes/GameScreenHUD.js"></script>
+	<script src="./js/classes/GameSpaceShip.js"></script>
+	<script src="./js/classes/GameText.js"></script>
+	<script src="./js/classes/GamePlayer.js"></script>
+	<script src="./js/classes/GameOptionBox.js"></script>
+	<script src="./js/classes/GameDoor.js"></script>
+	<script src="./js/classes/GameAnimation.js"></script>
+	<!-- Other Classes -->
+	<script src="./js/classes/Light.js"></script>
+	<!-- Load Animations -->
+	<script src="./js/classes/animations/AnimationWarp.js"></script>
+	<script src="./js/classes/animations/AnimationStarScroll.js"></script>
+	<!-- Load Settings -->
+	<script src="./js/settings.js"></script>
+	<!-- Load Main App-->
+	<script src="./js/app.js"></script>
+	<!-- SVG library -->
+	<script src="./js/libraries/rgbcolor.js"></script>
+	<script src="./js/libraries/canvg.js"></script>
+	<!-- Micro AJAX -->
+	<script src="./js/libraries/microajax.js"></script>
+	<!-- AreaImporter -->
+	<script src="./js/libraries/AreaImporter.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="text"></div>
+		<canvas id="canvas">Loading Game...</canvas>
+		<div style="clear:both"></div>
+	</div>
+	<div class="handprint">A game by <a href="http://handprintindustries.com">Handprint Industries</a></div>
+</body>
+</html>
