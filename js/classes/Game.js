@@ -85,56 +85,6 @@
 		return array;
 	};
 
-	var generateGalaxy = function(_){
-		Math.seedrandom(_.GALAXY.randomSeed);
-		var a = 50; //length
-		var b = 0.6; //tightness
-		var points = 70; //resolution
-		var density = 4; //stars per point
-		var discRadius = 30; //radius of center disc
-		var discDensity = 3000; //stars in disc
-		var armPull = 0.6; //percent of stars which stay in the arm disc radius
-		var center = {x: 3000, y:3000}; //center of GameGalaxyMap
-		var scale = 2; //scaling factor of entire image
-		var armCount = 5; //number of galaxy arms
-		var armDiscRad = 1.4; //arm disc brush radius
-		var armStartPoint = 5; //how many points to skip at the center
-
-		var createGalaxyArm = function(center, rot){
-			var stars = [];
-			for(var i = armStartPoint; i < points; i++){
-				var theta = i * (Math.PI * 2) / points;
-				var x = a*Math.pow(Math.E, b * theta)*Math.cos(theta - rot) + center.x;
-				var y = a*Math.pow(Math.E, b * theta)*Math.sin(theta - rot) + center.y;
-				stars = stars.concat(createGalaxyDisc({x: x, y: y}, i * armDiscRad, density * i));
-			}
-			return stars;
-		};
-
-		var createGalaxyDisc = function(center, rad, density){
-			var stars = [];
-			for(var j = 0; j < density; j++){
-				var t = 2 * Math.PI * Math.random();
-				var u = (Math.random() + Math.random()) * rad;
-				var r = u > rad && Math.random() < armPull ? rad - u : u;
-				stars.push(new Star(center.x + scale * r * Math.cos(t), center.y + scale * r * Math.sin(t), Math.random() * 3 + 1));
-			}
-			return stars;
-		};
-
-		if(_.GALAXY.galaxyStars === undefined){
-			var temp = [];
-			for(var i = 0; i < armCount; i++){
-				temp = temp.concat(createGalaxyArm(center, (i * 2 * Math.PI / armCount)));
-			}
-			temp = temp.concat(createGalaxyDisc(center, discRadius, discDensity));
-			temp.sort(function(a, b){
-				return a.y - b.y;
-			});
-			_.GALAXY.galaxyStars = temp;
-		}
-	};
-
 	var Star = function(x, y, size, speed){
 		this.x = x || 0;
 		this.y = y || 0;
@@ -145,8 +95,6 @@
 	var stateStartScreen = function(game, changeVars){
 		game.setMessage("Welcome to Space Adventure");
 		game.appendMessage("Use the number keys (1-8) to choose options.");
-		game.appendMessage("You can start a new game [1], or continue a saved game [2], if you have one.");
-		game.appendMessage("This is an alpha release! You can <a href='./changelog.txt'>check out the changelog</a> while I'm working on this.", "#ff0000");
 		game.coq.entities.create(GameScreen, {
 			init: function(gameScreen){
 				game.coq.renderer.setWorldSize({x: 800, y: 600});
@@ -173,15 +121,15 @@
 	var stateSpaceShip = function(game, changeVars){
 		game.coq.entities.create(GameScreen, {
 			init: function(gameScreen){
-				game.coq.renderer.setWorldSize({x: 800, y: 600});
+				game.coq.renderer.setWorldSize({x: 2400, y: 1600});
 				game.coq.renderer.setViewCenter({x: 400, y: 300});
 				game.coq.entities.create(GameSpaceShip, {}, function(s){gameScreen.screen = s;});
-				game.setMessage("Welcome to Space, adventurer!");
-				game.appendMessage("You find yourself adrift in the Corellis arm of the galaxy, one million credits in debt.");
-				game.appendMessage("Find your way around the Galaxy and earn your freedom!");
-				game.appendMessage("Fortunately, you have your trusty spaceship, <span class='orion'>The Orion</span>.");
-				game.appendMessage("Use the arrow keys to move, and the number keys to select options.");
-				game.appendMessage("May fortune smile upon you, adventurer!");
+				// game.setMessage("Welcome to Space, adventurer!");
+				// game.appendMessage("You find yourself adrift in the Corellis arm of the galaxy, one million credits in debt.");
+				// game.appendMessage("Find your way around the Galaxy and earn your freedom!");
+				// game.appendMessage("Fortunately, you have your trusty spaceship, <span class='orion'>The Orion</span>.");
+				// game.appendMessage("Use the arrow keys to move, and the number keys to select options.");
+				// game.appendMessage("May fortune smile upon you, adventurer!");
 			},
 			HUD: [
 				{
@@ -198,7 +146,7 @@
 			],
 			player: {
 				pos: function(){
-					return changeVars.storedPlayerPosition === undefined ? {x: 390, y: 210} : changeVars.storedPlayerPosition;
+					return {x: 390, y: 210};
 				}(),
 				size: {
 					x: 25,
@@ -215,11 +163,6 @@
 		buffer.height = height;
 		renderFunction(buffer.getContext('2d'));
 		return buffer;
-	};
-
-	var generateOneString = function(len){
-		var ones = "11111111111111111111111111";
-		return ones.substring(0, len);
 	};
 
 	exports.Star = Star;

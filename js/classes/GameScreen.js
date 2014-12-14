@@ -59,45 +59,6 @@
 			}
 		};
 
-		this.getLightSegments = function() {
-			var renderBox = {
-				pos: {
-					x: _ren.viewCenter.x - _ren.viewSize.x / 2,
-					y: _ren.viewCenter.y - _ren.viewSize.y / 2
-				},
-				size: {
-					x: _ren.viewSize.x,
-					y: _ren.viewSize.y
-				}
-			};
-			return [
-				{
-					x1: renderBox.pos.x,
-					y1: renderBox.pos.y,
-					x2: renderBox.pos.x + renderBox.size.x,
-					y2: renderBox.pos.y
-				},
-				{
-					x1: renderBox.pos.x + renderBox.size.x,
-					y1: renderBox.pos.y,
-					x2: renderBox.pos.x + renderBox.size.x,
-					y2: renderBox.pos.y + renderBox.size.y
-				},
-				{
-					x1: renderBox.pos.x + renderBox.size.x,
-					y1: renderBox.pos.y + renderBox.size.y,
-					x2: renderBox.pos.x,
-					y2: renderBox.pos.y + renderBox.size.y
-				},
-				{
-					x1: renderBox.pos.x,
-					y1: renderBox.pos.y + renderBox.size.y,
-					x2: renderBox.pos.x,
-					y2: renderBox.pos.y
-				}
-			];
-		};
-
 		_en.create(GameScreenHUD, settings.HUD);
 	};
 

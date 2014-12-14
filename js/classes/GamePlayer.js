@@ -2,6 +2,7 @@
 	var GamePlayer = function(_, settings){
 
 		var _in = _.coq.inputter;
+		var _cl = _.coq.collider;
 
 		var defaults = {
 			"pos": {"x": 0, "y": 0},
@@ -86,22 +87,34 @@
 				//UP
 				if(this.pos.y <= other.pos.y + other.size.y &&
 					this.pos.y + this.size.y / 2 > other.pos.y){
-					this.wallCollisions.up = other;
+					while(_cl.isIntersecting(this, other)) {
+						this.pos.y += 1;
+						this.vec.y = 0;
+					}
 				}
 				//DOWN
 				if(this.pos.y + this.size.y >= other.pos.y &&
 					this.pos.y + this.size.y / 2 < other.pos.y){
-					this.wallCollisions.down = other;
+					while(_cl.isIntersecting(this, other)) {
+						this.pos.y -= 1;
+						this.vec.y = 0;
+					}
 				}
 				//LEFT
 				if(this.pos.x <= other.pos.x + other.size.x &&
 					this.pos.x + this.size.x / 2 > other.pos.x + other.size.x){
-					this.wallCollisions.left = other;
+					while(_cl.isIntersecting(this, other)) {
+						this.pos.x += 1;
+						this.vec.x = 0;
+					}
 				}
 				//RIGHT
 				if(this.pos.x + this.size.x >= other.pos.x &&
 					this.pos.x + this.size.x / 2 < other.pos.x){
-					this.wallCollisions.right = other;
+					while(_cl.isIntersecting(this, other)) {
+						this.pos.x -= 1;
+						this.vec.x = 0;
+					}
 				}
 			}
 		};

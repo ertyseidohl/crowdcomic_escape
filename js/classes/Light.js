@@ -59,7 +59,7 @@
 			var angle = Math.atan2(points[i].y - this.pos.y,
 				points[i].x - this.pos.x);
 			points[i].angle = angle;
-			angles.push(angle - 0.00001, angle, angle + 0.00001);
+			angles.push(angle - 0.0000001, angle, angle + 0.0000001);
 		}
 		return angles;
 	};
