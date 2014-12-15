@@ -9,11 +9,22 @@
 
 		this.intersects = [];
 
+		this.dirty = true;
+
+		this.maxDistance = 800;
+
 		this.update = function() {
-			var segments = _.getAllBoxSegments();
-			var points = boxSegmentsToPoints(segments);
-			var angles = this.getAllAngles(points);
-			this.getSortedIntersects(angles, segments);
+			if (this.dirty) {
+				this.visible = true;
+				this.dirty = false;
+				var segments = _.getAllBoxSegments();
+				segments = segments.filter(function(seg) {
+					return Math.sqrt(Math.pow(this.pos.x - seg.x1, 2) + Math.pow(this.pos.y - seg.y1, 2)) < this.maxDistance;
+				}.bind(this));
+				var points = boxSegmentsToPoints(segments);
+				var angles = this.getAllAngles(points);
+				this.getSortedIntersects(angles, segments);
+			}
 		};
 	};
 
@@ -43,7 +54,11 @@
 			if (!closest) continue;
 			closest.angle = angles[i];
 
-			this.intersects.push(closest);
+			this.intersects[i] = closest;
+		}
+
+		for (i; i < this.intersects.length; i++) {
+			this.intersects[i] = null;
 		}
 
 		this.intersects = pareIntersects(this.intersects);
@@ -59,21 +74,23 @@
 			var angle = Math.atan2(points[i].y - this.pos.y,
 				points[i].x - this.pos.x);
 			points[i].angle = angle;
-			angles.push(angle - 0.0000001, angle, angle + 0.0000001);
+			angles.push(angle - 0.00001, angle, angle + 0.00001);
 		}
 		return angles;
 	};
 
 	Light.prototype.draw = function(ctx) {
+		if (!this.visible) return;
+		this.visible = false;
+		this.dirty = true;
 		if(this.intersects.length === 0) return;
 		//draw polygon
-		var i, intersect;
+		var i;
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
 		ctx.moveTo(this.intersects[0].x, this.intersects[0].y);
 		for (i = 1; i < this.intersects.length; i++) {
-			intersect = this.intersects[i];
-			ctx.lineTo(intersect.x, intersect.y);
+			ctx.lineTo(this.intersects[i].x, this.intersects[i].y);
 		}
 		ctx.fill();
 	};
@@ -113,6 +130,7 @@
 			rdx * rdx +
 			rdy * rdy
 		);
+
 		var spx = seg.x1;
 		var spy = seg.y1;
 		var sdx = seg.x2 - seg.x1;
@@ -121,6 +139,7 @@
 			sdx * sdx +
 			sdy * sdy
 		);
+
 		if (rdx / rmagnitude == sdx / smagnitude &&
 			rdy / rmagnitude == sdy / smagnitude ) {
 			//parallel

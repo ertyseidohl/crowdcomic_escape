@@ -124,29 +124,21 @@
 				game.coq.renderer.setWorldSize({x: 2400, y: 1600});
 				game.coq.renderer.setViewCenter({x: 400, y: 300});
 				game.coq.entities.create(GameSpaceShip, {}, function(s){gameScreen.screen = s;});
-				// game.setMessage("Welcome to Space, adventurer!");
-				// game.appendMessage("You find yourself adrift in the Corellis arm of the galaxy, one million credits in debt.");
-				// game.appendMessage("Find your way around the Galaxy and earn your freedom!");
-				// game.appendMessage("Fortunately, you have your trusty spaceship, <span class='orion'>The Orion</span>.");
-				// game.appendMessage("Use the arrow keys to move, and the number keys to select options.");
-				// game.appendMessage("May fortune smile upon you, adventurer!");
 			},
 			HUD: [
 				{
 					"key": 8,
 					"keyword": "EIGHT",
 					"action": function(){
-						saveGame(this);
 						this.changeGameState('start screen');
-						this.appendMessage("Game Saved", game.color_text_info);
 					}.bind(game),
-					"text": "Save/Quit",
+					"text": "Quit",
 					"enabled": true
 				}
 			],
 			player: {
 				pos: function(){
-					return {x: 390, y: 210};
+					return {x: 125, y: 330};
 				}(),
 				size: {
 					x: 25,

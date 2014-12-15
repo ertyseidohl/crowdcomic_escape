@@ -39,6 +39,26 @@
 				}
 			}
 
+			//create Osacians
+			if (results.osacians) {
+				for(i = 0; i < results.osacians.length; i++){
+					_en.create(Osacian, {
+						"pos": {"x": results.osacians[i][0] + offset.x, "y": results.osacians[i][1] + offset.y},
+					});
+				}
+			}
+
+			//create Areas
+			if (results.areas) {
+				for(i = 0; i < results.areas.length; i++){
+					_en.create(GameOptionBox, {
+						"pos": {"x": results.areas[i][0] + offset.x, "y": results.areas[i][1] + offset.y},
+						"size": {"x": results.areas[i][2] + offset.x, "y": results.areas[i][3] + offset.y},
+						"message" : results.areas[i][4].text
+					});
+				}
+			}
+
 			if (callback) {
 				callback.apply(this, [{
 					bg: bg,

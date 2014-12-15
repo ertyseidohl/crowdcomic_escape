@@ -23,7 +23,7 @@
 							},
 							color: "rgba(200,200,255,0.8)"
 						},
-						function(l){this.playerLight = l;}.bind(this)
+						function(l){this.player.light = l;}.bind(this)
 					);
 				}
 			}.bind(this));
@@ -49,13 +49,6 @@
 			if((_ren.viewCenter.y < this.player.pos.y && viewPort.y + viewPort.height < _ren.worldSize.y) ||
 				(_ren.viewCenter.y > this.player.pos.y && viewPort.y > 0)){
 				_ren.moveViewCenter({x: 0, y: (this.player.pos.y - _ren.viewCenter.y) / 20});
-			}
-
-			if (this.playerLight) {
-				this.playerLight.pos = {
-					x: this.player.pos.x + this.player.size.x / 2,
-					y: this.player.pos.y + this.player.size.y  / 2
-				};
 			}
 		};
 

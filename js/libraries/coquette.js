@@ -559,9 +559,17 @@
       // draw game and entities which are not static
       var collidables = this.coquette.entities.all(undefined, true);
       var noncollidables = this.coquette.entities.all(undefined, false);
+      var only_in_light = this.coquette.entities.all(Osacian, true);
       noncollidables.push(this.game);
       var c_i = 0;
       var nc_i = 0;
+      //first draw playerlight
+
+      // //then draw enemies
+      // ctx.globalCompositeOperation = "source-in"
+
+      // ctx.globalCompositeOperation = "source-over"
+      //then draw everything else
       while(c_i < collidables.length || nc_i < noncollidables.length){
         if(c_i < collidables.length && nc_i < noncollidables.length && (collidables[c_i].zindex || 0) < (noncollidables[nc_i].zindex || 0)){
           if (collidables[c_i].draw !== undefined && (collidables[c_i].isStatic === undefined)) {

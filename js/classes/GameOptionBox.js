@@ -52,9 +52,6 @@
 				ctx.moveTo(this.pos.x + this.size.x, this.pos.y);
 				ctx.lineTo(this.pos.x, this.pos.y + this.size.y);
 				ctx.stroke();
-			} else {
-				ctx.fillStyle = this.enabled ? _.settings.color_option_enabled : _.settings.color_option_disabled;
-				ctx.fillRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
 			}
 		};
 	};

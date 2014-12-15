@@ -11,7 +11,6 @@
 
 		importArea(_en, 'spaceship_1', {x: 0, y: 0}, function(area){this.area = area;}.bind(this));
 
-
 		// _en.create(GameOptionBox, {
 		// 	"pos": {"x": 380, "y": 305},
 		// 	"size": {"x": 40, "y": 40},

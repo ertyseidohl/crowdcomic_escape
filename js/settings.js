@@ -14,6 +14,8 @@ var gameSettings = {
 	color_option_disabled: "rgba(100, 100, 255, 0.2)",
 	color_option_enabled: "rgba(100, 100, 255, 0.2)",
 
+	color_osacian: "#ff0000",
+
 	font_hud: "18px sans-serif",
 	font_title: "40px sans-serif",
 	font_default: "18px sans-serif",

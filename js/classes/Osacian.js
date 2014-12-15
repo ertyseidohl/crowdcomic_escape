@@ -1,19 +1,19 @@
 ;(function(exports){
-	var GamePlayer = function(_, settings){
+	var Osacian = function(_, settings){
 
 		var _in = _.coq.inputter;
 		var _cl = _.coq.collider;
 
 		var defaults = {
 			"pos": {"x": 0, "y": 0},
-			"size": {"x": 0, "y": 0},
+			"size": {"x": 25, "y": 25},
 			"vec": {"x": 0, "y": 0},
 			"acceleration": 0.4,
 			"friction": 0.87,
 			"maxSpeed": 10,
 			"zindex": 100,
 			"style": "human",
-			"visible": true
+			"visible": true,
 		};
 
 		for (var i in defaults){
@@ -31,42 +31,19 @@
 			"right": false
 		};
 
-		this.light = settings.playerLight;
+		this.light = null;
 
 		this.draw = function(ctx){
 			if(!this.visible) return;
-			ctx.strokeStyle = _.settings.color_player_human;
+			this.visible = false;
+			ctx.strokeStyle = _.settings.color_osacian;
 			ctx.beginPath();
 			ctx.arc(this.pos.x + this.size.x / 2, this.pos.y + this.size.y / 2, this.size.x / 2, 0, 2*Math.PI);
 			ctx.stroke();
 		};
 
 		this.update = function(){
-
-			if(_in.state(_in.UP_ARROW)){
-				this.vec.y -= this.acceleration;
-				if(this.vec.y < -this.maxSpeed){
-					this.vec.y = -this.maxSpeed;
-				}
-			}
-			if(_in.state(_in.DOWN_ARROW)){
-				this.vec.y += this.acceleration;
-				if(this.vec.y > this.maxSpeed){
-					this.vec.y = this.maxSpeed;
-				}
-			}
-			if(_in.state(_in.LEFT_ARROW)){
-				this.vec.x -= this.acceleration;
-				if(this.vec.x < -this.maxSpeed){
-					this.vec.x = -this.maxSpeed;
-				}
-			}
-			if(_in.state(_in.RIGHT_ARROW)){
-				this.vec.x += this.acceleration;
-				if(this.vec.x > this.maxSpeed){
-					this.vec.x = this.maxSpeed;
-				}
-			}
+			this.visible = true;
 			if((this.wallCollisions.left === false && this.vec.x < 0) ||
 			(this.wallCollisions.right === false && this.vec.x > 0)){
 				if(this.pos.x + this.vec.x >= 0 && this.pos.x + this.vec.x + this.size.y <= _.coq.renderer.worldSize.x){
@@ -139,6 +116,6 @@
 		};
 	}
 
-	exports.GamePlayer = GamePlayer;
+	exports.Osacian = Osacian;
 
 })(this);
