@@ -5,7 +5,7 @@
 		var _en = _.coq.entities;
 
 		_en.create(GameText, {
-			"text": "Space Adventure",
+			"text": "Osacian Escape",
 			"fillStyle": _.settings.color_text,
 			"font": _.settings.font_title,
 			"y": 100

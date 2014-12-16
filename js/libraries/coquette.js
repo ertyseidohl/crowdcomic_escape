@@ -19,6 +19,22 @@
       self.renderer.update(interval);
       self.inputter.clearChanges();
     });
+
+    canvas.addEventListener('mousemove', function(evt) {
+        var rect = canvas.getBoundingClientRect();
+        self.inputter.mouse.x = evt.clientX - rect.left + self.renderer.getViewPort().x;
+        self.inputter.mouse.y = evt.clientY - rect.top + self.renderer.getViewPort().y;
+      }, false);
+     canvas.addEventListener('mousedown', function(evt) {
+        self.inputter.keydown(
+          {keyCode : self.inputter.MOUSE_LEFT}
+        );
+      }, false);
+     canvas.addEventListener('mouseup', function(evt) {
+        self.inputter.keyup(
+          {keyCode : self.inputter.MOUSE_LEFT}
+        );
+      }, false);
   };
 
   exports.Coquette = Coquette;
@@ -279,6 +295,11 @@
 
     inputReceiverElement.addEventListener('keydown', this.keydown.bind(this), false);
     inputReceiverElement.addEventListener('keyup', this.keyup.bind(this), false);
+
+    this.mouse = {
+      x : 0,
+      y : 0,
+    }
   };
 
   Inputter.prototype = {
@@ -408,8 +429,8 @@
     OPEN_SQUARE_BRACKET: 219,
     BACK_SLASH: 220,
     CLOSE_SQUARE_BRACKET: 221,
-    SINGLE_QUOTE: 222
-
+    SINGLE_QUOTE: 222,
+    MOUSE_LEFT: 1
   };
   exports.Inputter = Inputter;
 })(typeof exports === 'undefined' ? this.Coquette : exports);
@@ -514,6 +535,9 @@
     this.viewSize = { x:wView, y:hView };
     this.worldSize = { x:wView, y:hView };
     this.viewCenter = { x:wView / 2, y:hView / 2 };
+    this.lightCanvas = document.createElement('canvas');
+    this.lightCanvas.width = this.worldSize.x;
+    this.lightCanvas.height = this.worldSize.y;
   };
 
   Renderer.prototype = {
@@ -532,6 +556,8 @@
 
     setWorldSize: function(size) {
       this.worldSize = { x:size.x, y:size.y };
+      this.lightCanvas.width = this.worldSize.x;
+      this.lightCanvas.height = this.worldSize.y;
     },
 
     getViewPort: function(){
@@ -556,20 +582,38 @@
       // translate so all objs placed relative to viewport
       ctx.translate(-viewTranslate.x, -viewTranslate.y);
 
+      var lightCtx = this.lightCanvas.getContext("2d");
+      lightCtx.clearRect(0, 0, lightCtx.canvas.width, lightCtx.canvas.height);
+      //first draw playerlight
+      var lights = this.coquette.entities.all(Light);
+      for (var l_i = 0; l_i < lights.length; l_i++){
+        lights[l_i].draw(lightCtx);
+      }
+      lightCtx.globalCompositeOperation='source-atop'
+      // //then draw enemies & bullets
+      var enemies = this.coquette.entities.all(Osacian);
+      for (var e_i = 0; e_i < enemies.length; e_i++){
+        enemies[e_i].draw(lightCtx);
+      }
+      var bullets = this.coquette.entities.all(Bullet);
+      for (var b_i = 0; b_i < bullets.length; b_i++){
+        bullets[b_i].draw(lightCtx);
+      }
+      lightCtx.globalCompositeOperation='source-over'
+
+      // //then draw player
+      var players = this.coquette.entities.all(GamePlayer);
+      for (var p_i = 0; p_i < players.length; p_i++){
+        players[p_i].draw(lightCtx);
+      }
+
       // draw game and entities which are not static
       var collidables = this.coquette.entities.all(undefined, true);
       var noncollidables = this.coquette.entities.all(undefined, false);
-      var only_in_light = this.coquette.entities.all(Osacian, true);
       noncollidables.push(this.game);
       var c_i = 0;
       var nc_i = 0;
-      //first draw playerlight
 
-      // //then draw enemies
-      // ctx.globalCompositeOperation = "source-in"
-
-      // ctx.globalCompositeOperation = "source-over"
-      //then draw everything else
       while(c_i < collidables.length || nc_i < noncollidables.length){
         if(c_i < collidables.length && nc_i < noncollidables.length && (collidables[c_i].zindex || 0) < (noncollidables[nc_i].zindex || 0)){
           if (collidables[c_i].draw !== undefined && (collidables[c_i].isStatic === undefined)) {
@@ -600,7 +644,9 @@
           c_i ++;
         }
       }
+      // draw light canvas
 
+    ctx.drawImage(this.lightCanvas, 0, 0);
       //translate back
       ctx.translate(viewTranslate.x, viewTranslate.y);
     },

@@ -40,22 +40,20 @@
 			this.coq.renderer.setViewCenter({x:400,y:300});
 			({	"start screen": stateStartScreen,
 				"space ship": stateSpaceShip,
+				"game won" : stateGameWon,
+				"game lost" : stateGameLost
 			})[this.gameState](this, changeVars);
 		};
 
 		this.update = function(){
 			if(this.coq.inputter.changes(this.coq.inputter.P)){
-				this.changeGameState("");
 				this.coq.ticker.stop = true;
 			}
-			if(this.coq.inputter.changes(this.coq.inputter.D)){
+			if(this.coq.inputter.changes(this.coq.inputter.O)){
 				this.GALAXY.debugMode = ! this.GALAXY.debugMode;
 			}
 			if(this.coq.inputter.changes(this.coq.inputter.C)){
 				this.coq.renderer.setViewCenter(this.coq.renderer.center());
-			}
-			if(this.coq.inputter.changes(this.coq.inputter.S)){
-				saveGame(this);
 			}
 		};
 
@@ -68,6 +66,18 @@
 			});
 			return segments;
 		};
+
+		this.alertOsacians = function(team) {
+			var players = this.coq.entities.all(GamePlayer);
+			var player = players[0];
+			var osacians = this.coq.entities.all(Osacian);
+			osacians = osacians.filter(function(o) {
+				return o.team == team;
+			});
+			for (var o_i = 0; o_i < osacians.length; o_i++) {
+				osacians[o_i].noticePlayer(player);
+			}
+		}
 
 	};
 
@@ -93,8 +103,10 @@
 	};
 
 	var stateStartScreen = function(game, changeVars){
-		game.setMessage("Welcome to Space Adventure");
+		game.setMessage("Make your way to the escape pods!");
 		game.appendMessage("Use the number keys (1-8) to choose options.");
+		game.appendMessage("Arrow keys to move");
+		game.appendMessage("Click to shoot");
 		game.coq.entities.create(GameScreen, {
 			init: function(gameScreen){
 				game.coq.renderer.setWorldSize({x: 800, y: 600});
@@ -107,6 +119,55 @@
 					"keyword": "ONE",
 					"action": function(){
 						game.changeGameState("space ship");
+					}.bind(this),
+					"text": "Start Game",
+					"enabled": true
+				},
+			]
+		});
+		game.coq.entities.create(GameAnimation, {
+			animation: AnimationWarp
+		});
+	};
+
+	var stateGameLost = function(game, changeVars){
+		game.setMessage("You have died.");
+		game.coq.entities.create(GameScreen, {
+			init: function(gameScreen){
+				game.coq.renderer.setWorldSize({x: 800, y: 600});
+				game.coq.renderer.setViewCenter(game.coq.renderer.center());
+			},
+			HUD:[
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"action": function(){
+						game.changeGameState("start screen");
+					}.bind(this),
+					"text": "New Game",
+					"enabled": true
+				},
+			]
+		});
+		game.coq.entities.create(GameAnimation, {
+			animation: AnimationWarp
+		});
+	};
+
+	var stateGameWon = function(game, changeVars){
+		game.setMessage("You have made it off the Osacian Ship.");
+		game.appendMessage("Reference this code in your comment: " + Math.random().toString().substring(5,8));
+		game.coq.entities.create(GameScreen, {
+			init: function(gameScreen){
+				game.coq.renderer.setWorldSize({x: 800, y: 600});
+				game.coq.renderer.setViewCenter(game.coq.renderer.center());
+			},
+			HUD:[
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"action": function(){
+						game.changeGameState("start screen");
 					}.bind(this),
 					"text": "New Game",
 					"enabled": true

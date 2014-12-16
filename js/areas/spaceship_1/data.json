@@ -23,11 +23,11 @@
 		[1950.5, 150.5, 50, 50],
 		[2000.5, 500.5, 50, 100],
 		[1150.5, 550.5, 250, 50],
-		[1900.5, 600.5, 50, 100],
+		[1700.5, 600.5, 50, 100],
 		[1900.5, 700.5, 300, 100],
 		[1900.5, 900.5, 300, 100],
 		[1900.5, 1100.5, 300, 100],
-		[1900.5, 1350.5, 50, 150],
+		[1700.5, 1350.5, 50, 150],
 		[1200.5, 1225.5, 50, 275],
 		[1050.5, 1225.5, 150, 25],
 		[600.5, 1225.5, 400, 25],
@@ -117,23 +117,29 @@
 	],
 
 	"osacians": [
-		[288, 288],
-		[488, 788],
-		[338, 1063],
-		[1663, 788],
-		[1863, 1038],
-		[1613, 1313],
-		[2213, 1263],
-		[488, 1363],
-		[1863, 1363],
-		[2113, 863],
-		[1463, 413],
-		[1663, 313],
-		[563, 413],
-		[663, 363],
-		[463, 388],
-		[663, 438],
-		[588, 238]
+		[388, 288, 0],
+		[588, 738, 2],
+		[335, 1063, 0],
+		[1863, 718, 3 ],
+		[1863, 1338, 3],
+		[1613, 1313, 3],
+		[2213, 1263, 3],
+		[988, 1363, 2],
+		[1088, 1363, 2],
+		[888, 1363, 2],
+		[1863, 1363, 3],
+		[1970, 805, 3],
+		[1463, 413, 4 ],
+		[1663, 313, 4],
+		[363, 213, 1],
+		[463, 163, 1],
+		[263, 188, 1],
+		[463, 238, 1],
+		[975, 550, 5],
+		[875, 550, 5],
+		[1075, 550, 5],
+		[1175, 550, 5],
+		[588, 138, 1]
 	],
 
 	"areas": [
@@ -143,193 +149,217 @@
 				"You hear the low thrum of the ship's engines.",
 				"The escape pods should be just outside this lift bay, to the left."
 			],
-			"actions": [
+			"options": [
 
 			]
 		}],
 		[100.5, 625.5, 175, 325, {
 			"text" : [
-				"second area"
+				"You enter an Osacian storage room, full of food.",
+				"There's not really anything to do in here, but it makes a good hiding space."
 			],
-			"actions": [
+			"options": [
 
 			]
 		}],
 		[100.5, 975.5, 425, 250, {
 			"text" : [
-
+				"This room is a food storage room, but there is an Osacian here, among the shelves!"
 			],
-			"actions": [
-
-			]
-		}],
-		[100.5, 1250.5, 125, 100, {
-			"text" : [
-
-			],
-			"actions": [
+			"options": [
 
 			]
 		}],
 		[250.5, 1250.5, 525, 250, {
 			"text" : [
-
+				"This room seems to be some sort of changing room for the Osacian engineers.",
+				"There are a lot of tools here. A room of showers is adjacent, through a doorway."
 			],
-			"actions": [
-
-			]
-		}],
-		[800.5, 1250.5, 400, 250, {
-			"text" : [
-
-			],
-			"actions": [
+			"options": [
 
 			]
 		}],
 		[550.5, 1000.5, 650, 225, {
 			"text" : [
-
+				"This corridor is large.",
+				"You see dings and dents in the walls. Heavy equipment must have been moved through here."
 			],
-			"actions": [
-
-			]
-		}],
-		[475.5, 700.5, 150, 100, {
-			"text" : [
-
-			],
-			"actions": [
-
-			]
-		}],
-		[400.5, 350.5, 350, 150, {
-			"text" : [
-
-			],
-			"actions": [
+			"options": [
 
 			]
 		}],
 		[800.5, 525.5, 350, 150, {
 			"text" : [
-
+				"This utility room is full of pipes and valves, all labeled in Osacian.",
+				"If you're not trying to call attention to yourself, it might be best to leave this room alone."
 			],
-			"actions": [
-
-			]
-		}],
-		[800.5, 350.5, 350, 150, {
-			"text" : [
-
-			],
-			"actions": [
+			"options": [
 
 			]
 		}],
 		[1850.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[1650.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[1450.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[1250.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[1050.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[850.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[650.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[450.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[250.5, 50.5, 150, 100, {
 			"text" : [
-
+				"You enter an escape pod!",
+				"A large, orange planet looms below you.",
+				"There is a lever here to release the escape pod."
 			],
-			"actions": [
-
+			"options": [
+				{
+					"key": 1,
+					"keyword": "ONE",
+					"text": "Launch",
+					"gameState": "game won",
+					"enabled": true
+				}
 			]
 		}],
 		[1250.5, 900.5, 200, 250, {
 			"text" : [
+				"You enter the lower part of the engineering deck.",
+				"The ship's engines are here, as well as lots of Osacian workers.",
+				"Fortunately, it's quite noisy, and the Osacians probably won't notice you unless you get too close."
 
 			],
-			"actions": [
+			"options": [
 
 			]
 		}],
-		[2050.5, 375.5, 150, 200, {
+		[175.5, 350.5, 200, 25, {
 			"text" : [
+				"Several Osacians run out of the room nearby, guns blazing!"
+			],
+			"options": [
 
 			],
-			"actions": [
-
-			]
-		}],
-		[1175.5, 200.5, 825, 350, {
-			"text" : [
-
-			],
-			"actions": [
-
-			]
-		}],
-		[175.5, 350.5, 200, 150, {
-			"text" : [
-
-			],
-			"actions": [
-
-			]
+			"callback" : "game.alertOsacians(1);"
 		}]
 	]
 }

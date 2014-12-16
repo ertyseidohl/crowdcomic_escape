@@ -47,21 +47,20 @@
 			ctx.lineTo(500, 325); //nose
 			ctx.lineTo(450, 325); //helm bottom
 			ctx.lineTo(425, 350); //stem
-			ctx.lineTo(325, 350); //keel
+			ctx.lineTo(325, 450); //keel
 			ctx.lineTo(300, 325); //keel aft
 			ctx.lineTo(300, 275); //aft
 			ctx.fill();
 			//viewport
-			ctx.moveTo(450, 275);
-			ctx.lineTo(450, 300);
-			ctx.lineTo(500, 300);
+			ctx.moveTo(465, 325);
+			ctx.lineTo(425, 425);
+			ctx.lineTo(387, 387);
 			ctx.stroke();
 			//wing
 			ctx.beginPath();
 			ctx.moveTo(325, 300); //start
 			ctx.lineTo(425, 300); //top
-			ctx.lineTo(400, 325); //slant
-			ctx.lineTo(325, 325); //bottom
+			ctx.lineTo(400, 355); //slant
 			ctx.lineTo(325, 300); //rear
 			ctx.stroke();
 		};

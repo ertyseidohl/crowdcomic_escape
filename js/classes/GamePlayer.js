@@ -3,6 +3,8 @@
 
 		var _in = _.coq.inputter;
 		var _cl = _.coq.collider;
+		var _en = _.coq.entities;
+		var _ren = _.coq.renderer;
 
 		var defaults = {
 			"pos": {"x": 0, "y": 0},
@@ -31,18 +33,26 @@
 			"right": false
 		};
 
+		this.health = 2;
+
 		this.light = settings.playerLight;
+
+		this.shotCooldown = 0;
+		this.shotCooldownMax = 20;
 
 		this.draw = function(ctx){
 			if(!this.visible) return;
+			this.visible = false;
 			ctx.strokeStyle = _.settings.color_player_human;
+			ctx.lineWidth = this.health * 2;
 			ctx.beginPath();
 			ctx.arc(this.pos.x + this.size.x / 2, this.pos.y + this.size.y / 2, this.size.x / 2, 0, 2*Math.PI);
+			ctx.closePath();
 			ctx.stroke();
 		};
 
 		this.update = function(){
-
+			this.visible = true;
 			if(_in.state(_in.UP_ARROW)){
 				this.vec.y -= this.acceleration;
 				if(this.vec.y < -this.maxSpeed){
@@ -67,6 +77,26 @@
 					this.vec.x = this.maxSpeed;
 				}
 			}
+			if (this.shotCooldown > 0) {
+				this.shotCooldown --;
+			}
+			if (_in.state(_in.MOUSE_LEFT)) {
+				if (this.shotCooldown == 0) {
+					this.shotCooldown = this.shotCooldownMax;
+					_en.create(Bullet, {
+						pos : {
+							x: this.pos.x + (this.size.x / 2),
+							y: this.pos.y + (this.size.y / 2)
+						},
+						angle : Math.atan2(
+							_in.mouse.y - this.pos.y - (this.size.y / 2),
+							_in.mouse.x - this.pos.x - (this.size.x / 2)
+						),
+						type : 1,
+						emitter : this
+					});
+				}
+			}
 			if((this.wallCollisions.left === false && this.vec.x < 0) ||
 			(this.wallCollisions.right === false && this.vec.x > 0)){
 				if(this.pos.x + this.vec.x >= 0 && this.pos.x + this.vec.x + this.size.y <= _.coq.renderer.worldSize.x){
@@ -88,6 +118,16 @@
 					y: this.pos.y + this.size.y  / 2
 				};
 			}
+
+			//leeeeeeeroy
+			var osacians = _.coq.entities.all(Osacian);
+			for (var o_i = 0; o_i < osacians.length; o_i++) {
+				var o = osacians[o_i];
+				if (Math.abs(o.pos.x - this.pos.x) + Math.abs(o.pos.y - this.pos.y) < 200) {
+					o.noticePlayer(this);
+				}
+			}
+
 		};
 
 		this.collision = function(other){
@@ -135,6 +175,13 @@
 				if(other == this.wallCollisions.down) this.wallCollisions.down = false;
 				if(other == this.wallCollisions.left) this.wallCollisions.left = false;
 				if(other == this.wallCollisions.right) this.wallCollisions.right = false;
+			}
+		};
+
+		this.hitByBullet = function(_fals) {
+			//this.health -= 1;
+			if (this.health == 0) {
+				_.changeGameState("game lost");
 			}
 		};
 	}

@@ -13,8 +13,10 @@
 		this.waiting = 0;
 		this.waitTime = 30;
 
+		this.open = false;
+
 		this.collision = function(other){
-			if(other instanceof GamePlayer){
+			if(other instanceof GamePlayer || other instanceof Osacian){
 				if(!this.locked && !this.triggered){
 					this.triggered = true;
 					this.opening = this.openTime;
@@ -23,7 +25,7 @@
 			}
 		};
 		this.uncollision = function(other){
-			if(other instanceof GamePlayer){
+			if(other instanceof GamePlayer || other instanceof Osacian){
 				if(!this.locked){
 					this.triggered = false;
 					this.opening = - this.openTime;
@@ -38,6 +40,16 @@
 				this.waiting --;
 			} else if(this.opening < 0){
 				this.opening ++;
+			}
+
+			if (this.opening === 0 && !this.triggered && this.waiting === 0) {
+				this.open = false;
+			} else if (this.opening > 0) {
+				this.open = false;
+			} else if (this.opening < 0 && this.waiting === 0) {
+				this.open = false;
+			} else {
+				this.open = true;
 			}
 		};
 		this.draw = function(ctx){

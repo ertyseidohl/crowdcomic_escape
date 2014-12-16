@@ -1,12 +1,13 @@
 ;(function(exports){
 	var GameOptionBox = function(_, settings){
-		for (var i in settings) {
-			this[i] = settings[i];
-		}
 
 		this.visible = false;
 		this.enabled = false;
 		this.HUDOptions = [];
+
+		for (var i in settings) {
+			this[i] = settings[i];
+		}
 
 		this.collision = function(other){
 			if(other instanceof GamePlayer){
@@ -18,6 +19,10 @@
 					}
 				} else if(this.enabled === false){
 					this.enabled = true;
+				}
+				if (this.enabled && this.callback) {
+					eval(this.callback);
+					this.callback = "";
 				}
 			}
 		};
@@ -51,6 +56,7 @@
 				ctx.lineTo(this.pos.x + this.size.x, this.pos.y + this.size.y);
 				ctx.moveTo(this.pos.x + this.size.x, this.pos.y);
 				ctx.lineTo(this.pos.x, this.pos.y + this.size.y);
+				ctx.closePath();
 				ctx.stroke();
 			}
 		};

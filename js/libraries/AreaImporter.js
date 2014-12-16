@@ -44,6 +44,7 @@
 				for(i = 0; i < results.osacians.length; i++){
 					_en.create(Osacian, {
 						"pos": {"x": results.osacians[i][0] + offset.x, "y": results.osacians[i][1] + offset.y},
+						"team" : results.osacians[i][2]
 					});
 				}
 			}
@@ -54,7 +55,9 @@
 					_en.create(GameOptionBox, {
 						"pos": {"x": results.areas[i][0] + offset.x, "y": results.areas[i][1] + offset.y},
 						"size": {"x": results.areas[i][2] + offset.x, "y": results.areas[i][3] + offset.y},
-						"message" : results.areas[i][4].text
+						"message" : results.areas[i][4].text,
+						"callback" : results.areas[i][4].callback,
+						"HUD" : results.areas[i][4].options
 					});
 				}
 			}

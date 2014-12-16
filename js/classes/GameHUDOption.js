@@ -9,7 +9,11 @@
 		this.update = function(){
 			if(this.enabled){
 				if(_.coq.inputter.changes(_.coq.inputter[this.keyword])){
-					this.action.apply(this, []);
+					if (this.action) {
+						this.action.apply(this, []);
+					} else if (this.gameState) {
+						game.changeGameState(this.gameState);
+					}
 				}
 			}
 			if(settings.update !== undefined) settings.update.apply(this, [_]);

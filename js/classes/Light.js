@@ -11,7 +11,7 @@
 
 		this.dirty = true;
 
-		this.maxDistance = 800;
+		this.maxDistance = 1000;
 
 		this.update = function() {
 			if (this.dirty) {
@@ -54,11 +54,7 @@
 			if (!closest) continue;
 			closest.angle = angles[i];
 
-			this.intersects[i] = closest;
-		}
-
-		for (i; i < this.intersects.length; i++) {
-			this.intersects[i] = null;
+			this.intersects.push(closest);
 		}
 
 		this.intersects = pareIntersects(this.intersects);
@@ -92,6 +88,7 @@
 		for (i = 1; i < this.intersects.length; i++) {
 			ctx.lineTo(this.intersects[i].x, this.intersects[i].y);
 		}
+		ctx.closePath();
 		ctx.fill();
 	};
 

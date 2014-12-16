@@ -3,6 +3,7 @@
 
 		var _in = _.coq.inputter;
 		var _cl = _.coq.collider;
+		var _en = _.coq.entities;
 
 		var defaults = {
 			"pos": {"x": 0, "y": 0},
@@ -14,15 +15,26 @@
 			"zindex": 100,
 			"style": "human",
 			"visible": true,
+			"team" : 1
 		};
 
 		for (var i in defaults){
 			this[i] = typeof(settings[i]) == "undefined" ? defaults[i] : settings[i];
 		}
 
+		this.shotCooldown = 0;
+		this.shotCooldownMax = 30;
+
+		this.health = 3;
+
 		this.zindex = 1000;
 
 		this.boundingBox = _.coq.collider.CIRCLE;
+
+		this.player = null;
+
+		this.speed = 0.5;
+		this.maxSpeed = 3;
 
 		this.wallCollisions = {
 			"up": false,
@@ -31,15 +43,20 @@
 			"right": false
 		};
 
-		this.light = null;
-
 		this.draw = function(ctx){
 			if(!this.visible) return;
 			this.visible = false;
 			ctx.strokeStyle = _.settings.color_osacian;
 			ctx.beginPath();
 			ctx.arc(this.pos.x + this.size.x / 2, this.pos.y + this.size.y / 2, this.size.x / 2, 0, 2*Math.PI);
+			ctx.closePath();
 			ctx.stroke();
+			ctx.fillStyle = 'black';
+			ctx.fillText(this.pos.x + "," + this.pos.y, this.pos.x, this.pos.y);
+			if (this.player) {
+				ctx.fillStyle = _.settings.color_osacian;
+				ctx.fill();
+			}
 		};
 
 		this.update = function(){
@@ -56,19 +73,44 @@
 					this.pos.y += this.vec.y;
 				}
 			}
+
+			if (this.player) {
+				this.dist = Math.sqrt(Math.pow(this.player.pos.y - this.pos.y, 2) + Math.pow(this.player.pos.x - this.pos.x, 2));
+				if (this.dist > 50) {
+					var angle = Math.atan2(this.player.pos.y - this.pos.y, this.player.pos.x - this.pos.x);
+					this.vec.x += this.speed * Math.cos(angle);
+					this.vec.y += this.speed * Math.sin(angle);
+				}
+
+				if (this.shotCooldown > 0) {
+					this.shotCooldown --;
+				}
+				if (this.shotCooldown == 0) {
+					this.shotCooldown = this.shotCooldownMax;
+					_en.create(Bullet, {
+						pos : {
+							x: this.pos.x + (this.size.x / 2),
+							y: this.pos.y + (this.size.y / 2)
+						},
+						angle : Math.atan2(
+							this.player.pos.y + this.player.size.y / 2 - this.pos.y - (this.size.y / 2),
+							this.player.pos.x + this.player.size.x / 2 - this.pos.x - (this.size.x / 2)
+						),
+						type : 2,
+						emitter: this
+					});
+				}
+			}
+
 			this.vec.x *= this.friction;
 			this.vec.y *= this.friction;
 
-			if (this.light) {
-				this.light.pos = {
-					x: this.pos.x + this.size.x / 2,
-					y: this.pos.y + this.size.y  / 2
-				};
-			}
+			this.vec.x = Math.min(this.vec.x, this.maxSpeed);
+			this.vec.y = Math.min(this.vec.y, this.maxSpeed);
 		};
 
 		this.collision = function(other){
-			if(other instanceof GameCollisionBox){
+			if(other instanceof GameCollisionBox || other instanceof Osacian){
 				other.collided = true;
 				//LEFT
 				if(this.pos.x <= other.pos.x + other.size.x &&
@@ -114,6 +156,23 @@
 				if(other == this.wallCollisions.right) this.wallCollisions.right = false;
 			}
 		};
+
+		this.hitByBullet = function(player){
+			if (player) {
+				this.noticePlayer(player);
+			}
+			if (this.team) {
+				game.alertOsacians(this.team);
+			}
+			this.health --;
+			if (this.health === 0) {
+				_en.destroy(this);
+			}
+		}
+
+		this.noticePlayer = function(player) {
+			this.player = player;
+		}
 	}
 
 	exports.Osacian = Osacian;
