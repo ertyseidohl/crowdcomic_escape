@@ -49,7 +49,7 @@
 			if (other instanceof GameDoor && !other.open) {
 				_en.destroy(this);
 			}
-			if (other instanceof Osacian && other !== this.emitter) {
+			if (other instanceof Osacian && this.type == 1) {
 				other.hitByBullet(this.emitter);
 				_en.destroy(this);
 			}

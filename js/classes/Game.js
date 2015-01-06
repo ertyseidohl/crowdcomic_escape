@@ -105,7 +105,7 @@
 	var stateStartScreen = function(game, changeVars){
 		game.setMessage("Make your way to the escape pods!");
 		game.appendMessage("Use the number keys (1-8) to choose options.");
-		game.appendMessage("Arrow keys to move");
+		game.appendMessage("Arrow keys or WASD to move");
 		game.appendMessage("Click to shoot");
 		game.coq.entities.create(GameScreen, {
 			init: function(gameScreen){
@@ -132,6 +132,7 @@
 
 	var stateGameLost = function(game, changeVars){
 		game.setMessage("You have died.");
+		game.appendMessage("(If the frame rate drops on your next playthrough, try just refreshing the page!)");
 		game.coq.entities.create(GameScreen, {
 			init: function(gameScreen){
 				game.coq.renderer.setWorldSize({x: 800, y: 600});
@@ -156,7 +157,7 @@
 
 	var stateGameWon = function(game, changeVars){
 		game.setMessage("You have made it off the Osacian Ship.");
-		game.appendMessage("Reference this code in your comment: " + Math.random().toString().substring(5,8));
+		game.appendMessage("Reference this code in your comment: 1" + Math.random().toString().substring(5,8));
 		game.coq.entities.create(GameScreen, {
 			init: function(gameScreen){
 				game.coq.renderer.setWorldSize({x: 800, y: 600});

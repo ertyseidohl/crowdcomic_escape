@@ -51,8 +51,6 @@
 			ctx.arc(this.pos.x + this.size.x / 2, this.pos.y + this.size.y / 2, this.size.x / 2, 0, 2*Math.PI);
 			ctx.closePath();
 			ctx.stroke();
-			ctx.fillStyle = 'black';
-			ctx.fillText(this.pos.x + "," + this.pos.y, this.pos.x, this.pos.y);
 			if (this.player) {
 				ctx.fillStyle = _.settings.color_osacian;
 				ctx.fill();
@@ -172,6 +170,7 @@
 
 		this.noticePlayer = function(player) {
 			this.player = player;
+			this.shotCooldown = Math.floor(Math.random() * this.shotCooldownMax);
 		}
 	}
 

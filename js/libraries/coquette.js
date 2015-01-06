@@ -52,6 +52,14 @@
       var ent = this.coquette.entities.all(undefined, true);
       for (var i = 0, len = ent.length; i < len; i++) {
         for (var j = i; j < len; j++) {
+          if (
+            (ent[i] instanceof GameCollisionBox && ent[j] instanceof GameCollisionBox) ||
+            (ent[i] instanceof GameCollisionBox && ent[j] instanceof GameDoor) ||
+            (ent[i] instanceof GameDoor && ent[j] instanceof GameCollisionBox) ||
+            (ent[i] instanceof GameDoor && ent[j] instanceof GameDoor)
+          ) {
+            continue;
+          }
           if (ent[i] !== ent[j]) {
             if (this.isIntersecting(ent[i], ent[j])) {
               this.collision(ent[i], ent[j]);

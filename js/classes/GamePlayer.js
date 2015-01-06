@@ -53,25 +53,25 @@
 
 		this.update = function(){
 			this.visible = true;
-			if(_in.state(_in.UP_ARROW)){
+			if(_in.state(_in.UP_ARROW) || _in.state(_in.W)){
 				this.vec.y -= this.acceleration;
 				if(this.vec.y < -this.maxSpeed){
 					this.vec.y = -this.maxSpeed;
 				}
 			}
-			if(_in.state(_in.DOWN_ARROW)){
+			if(_in.state(_in.DOWN_ARROW) || _in.state(_in.S)){
 				this.vec.y += this.acceleration;
 				if(this.vec.y > this.maxSpeed){
 					this.vec.y = this.maxSpeed;
 				}
 			}
-			if(_in.state(_in.LEFT_ARROW)){
+			if(_in.state(_in.LEFT_ARROW) || _in.state(_in.A)){
 				this.vec.x -= this.acceleration;
 				if(this.vec.x < -this.maxSpeed){
 					this.vec.x = -this.maxSpeed;
 				}
 			}
-			if(_in.state(_in.RIGHT_ARROW)){
+			if(_in.state(_in.RIGHT_ARROW) || _in.state(_in.D)){
 				this.vec.x += this.acceleration;
 				if(this.vec.x > this.maxSpeed){
 					this.vec.x = this.maxSpeed;
@@ -131,7 +131,7 @@
 		};
 
 		this.collision = function(other){
-			if(other instanceof GameCollisionBox){
+			if(other instanceof GameCollisionBox || other instanceof Osacian){
 				other.collided = true;
 				//LEFT
 				if(this.pos.x <= other.pos.x + other.size.x &&
@@ -179,7 +179,7 @@
 		};
 
 		this.hitByBullet = function(_fals) {
-			//this.health -= 1;
+			if(!_.GALAXY.debugMode) this.health -= 1;
 			if (this.health == 0) {
 				_.changeGameState("game lost");
 			}

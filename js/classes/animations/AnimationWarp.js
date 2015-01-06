@@ -52,9 +52,11 @@
 			ctx.lineTo(300, 275); //aft
 			ctx.fill();
 			//viewport
-			ctx.moveTo(465, 325);
+			ctx.moveTo(450, 325);
+			ctx.lineTo(465, 325);
 			ctx.lineTo(425, 425);
 			ctx.lineTo(387, 387);
+			ctx.fill();
 			ctx.stroke();
 			//wing
 			ctx.beginPath();
